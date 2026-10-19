@@ -60,7 +60,7 @@ int main() {
         Punto 2: Leer arribos.bin y nombres.txt, cargando las estructuras convenientes para 
         realizar las operaciones solicitadas.
     */ 
-    
+    ifstream archilec1;
     archilec1.open("nombres.txt");
 
     fstream archilec2;
