@@ -13,7 +13,7 @@ struct Arribo {
     int codigoDia;
 };
 
-const int longitudCodigoIATA = 3;
+// const int longitudCodigoIATA = 3;
 
 struct Aeropuerto {
     string codigoIATA;
@@ -24,11 +24,11 @@ struct Aeropuerto {
 };
 
 fstream& operator >> (fstream &fs, Arribo& arri) {
-    fs.read(reinterpret_cast<char *>(&arri.codigoPais), sizeof(arri.codigoPais));
-    fs.read(reinterpret_cast<char *>(&arri.codigoAerolinea), sizeof(arri.codigoAerolinea));
+    fs.read(reinterpret_cast<char *>(&arri.codigoPais), sizeof(Arribo.codigoPais));
+    fs.read(reinterpret_cast<char *>(&arri.codigoAerolinea), sizeof(Arribo.codigoAerolinea));
     arri.codigoIATA = readstring(fs, longitudCodigoIATA);
-    fs.read(reinterpret_cast<char *>(&arri.cantidadPasajeros), sizeof(arri.cantidadPasajeros));
-    fs.read(reinterpret_cast<char *>(&arri.codigoDia), sizeof(arri.codigoDia));
+    fs.read(reinterpret_cast<char *>(&arri.cantidadPasajeros), sizeof(Arribo.cantidadPasajeros));
+    fs.read(reinterpret_cast<char *>(&arri.codigoDia), sizeof(Arribo.codigoDia));
     return fs;
 }
 
@@ -42,6 +42,10 @@ int main() {
     const int cantidadAerolineas = 8;
     const int cantidadAeropuertos = 15;
     const int cantidadDias = 7;
+   
+    string str,registro;
+    int i=0,a=0,b=0,c=0;
+    Arribo arri;
 
     // Para usar en el punto 2:
     string paises[cantidadPaises]{};
@@ -56,6 +60,77 @@ int main() {
         Punto 2: Leer arribos.bin y nombres.txt, cargando las estructuras convenientes para 
         realizar las operaciones solicitadas.
     */ 
+    
+    archilec1.open("nombres.txt");
+
+    fstream archilec2;
+    archilec2.open("arribos.bin",ios::binary);
+    
+
+//Ingreso de los datos del nombre.txt
+    if(!archilec){
+
+        cout<<"Error en conexión del archivo";
+
+    }
+
+        for(i=0;i<5;i++){
+
+            archilec >> str;
+
+            paises[i] = str;
+        }
+
+        for(a=0;a<8;a++){
+        
+            getline(archilec, str);
+            
+            aerolineas[b] = str;
+
+        }
+
+        for(b=0;b<15;b++){
+
+            archilec >> str;
+            aeropuerto.nombre[b] = str;
+            archivo.ignore(1000, '\n'); //ignora el resto de la linea, porque solo necesito las 3 iniciales
+
+        }
+
+        if(!archilec2){
+
+        cout<<"error en conexión del archivo";
+
+
+        }
+
+       while(archilec2 >> arri){
+
+cout<<"Registros"<<endl;
+       
+cout<<""<<arri.codigoPais<<" ";
+cout<<""<<arri.codigoAerolinea<<"";
+cout<<""<<arri.codigoIATA<<" ";
+cout<<""<<arri.cantidadPasajeros<<" ";
+cout<<""<<arri.codigoDia<<" ";
+
+
+       }
+
+
+
+
+
+
+
+
+
+
+
+//
+
+
+
 
 
 
