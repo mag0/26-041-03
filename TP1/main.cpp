@@ -106,6 +106,7 @@ int main() {
 
         }
 
+        
        while(archilec2 >> arri){
 
 cout<<"Registros"<<endl;
@@ -119,22 +120,7 @@ cout<<""<<arri.codigoDia<<" ";
 
        }
 
-
-
-
-
-
-
-
-
-
-
 //
-
-
-
-
-
 
     /*
         Punto 3: Armar un listado con el nombre del país, el nombre de la aerolínea y la cantidad 
