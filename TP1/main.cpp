@@ -107,6 +107,9 @@ int main() {
         }
 
         
+        i=0;
+        a=0;
+
        while(archilec2 >> arri){
 
 cout<<"Registros"<<endl;
@@ -117,6 +120,21 @@ cout<<""<<arri.codigoIATA<<" ";
 cout<<""<<arri.cantidadPasajeros<<" ";
 cout<<""<<arri.codigoDia<<" ";
 
+
+        for(i=0;i<8;i++){
+
+            for(a=0;a<5;a++){
+
+                if(arribo.codigoPais == a && arribo.codigoAerolinea == i){
+
+
+                    int pasajerosPorPaisAerolinea[i][a] =+ arri.cantidadPasajeros;
+
+                }
+
+            }
+
+        }
 
        }
 
