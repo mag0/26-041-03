@@ -99,6 +99,9 @@ int main() {
 
         }
 
+        archilec1.close();
+
+
         if(!archilec2){
 
         cout<<"error en conexión del archivo";
@@ -118,22 +121,13 @@ cout<<""<<arri.codigoIATA<<" ";
 cout<<""<<arri.cantidadPasajeros<<" ";
 cout<<""<<arri.codigoDia<<" ";
 
-
-        for(i=0;i < cantidadAerolineas;i++){
-
-            for(a=0;a < cantidadPaises ;a++){
-
-                if(arribo.codigoPais == a && arribo.codigoAerolinea == i){
-
-                    int pasajerosPorPaisAerolinea[i][a] =+ arri.cantidadPasajeros;
-
-                }
-
-            }
-
-        }
+        
+  pasajerosPorPaisAerolinea[arribo.codigoPais][arribo.codigoAerolinea] += cantidadPasajeros;
+      
 
        }
+
+        archilec2.close();
 
 //
 
