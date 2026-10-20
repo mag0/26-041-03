@@ -85,15 +85,17 @@ int main() {
         
             getline(archilec, str);
             
-            aerolineas[b] = str;
+            aerolineas[a] = str;
 
         }
 
         for(b=0;b<15;b++){
 
             archilec >> str;
-            aeropuerto.nombre[b] = str;
-            archivo.ignore(1000, '\n'); //ignora el resto de la linea, porque solo necesito las 3 iniciales
+            aeropuertos[b].codigoIATA = str;
+            
+            getline(archilec,str);
+            aeropuertos[b].nombre >> str;
 
         }
 
