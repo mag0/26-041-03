@@ -106,9 +106,7 @@ int main() {
 
         }
 
-        
-        i=0;
-        a=0;
+      
 
        while(archilec2 >> arri){
 
@@ -121,12 +119,11 @@ cout<<""<<arri.cantidadPasajeros<<" ";
 cout<<""<<arri.codigoDia<<" ";
 
 
-        for(i=0;i<8;i++){
+        for(i=0;i < cantidadAerolineas;i++){
 
-            for(a=0;a<5;a++){
+            for(a=0;a < cantidadPaises ;a++){
 
                 if(arribo.codigoPais == a && arribo.codigoAerolinea == i){
-
 
                     int pasajerosPorPaisAerolinea[i][a] =+ arri.cantidadPasajeros;
 
