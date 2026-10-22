@@ -13,7 +13,7 @@ struct Arribo {
     int codigoDia;
 };
 
-// const int longitudCodigoIATA = 3;
+ const int longitudCodigoIATA = 3;
 
 struct Aeropuerto {
     string codigoIATA;
@@ -24,11 +24,11 @@ struct Aeropuerto {
 };
 
 fstream& operator >> (fstream &fs, Arribo& arri) {
-    fs.read(reinterpret_cast<char *>(&arri.codigoPais), sizeof(Arribo.codigoPais));
-    fs.read(reinterpret_cast<char *>(&arri.codigoAerolinea), sizeof(Arribo.codigoAerolinea));
+    fs.read(reinterpret_cast<char *>(&arri.codigoPais), sizeof(arri.codigoPais));
+    fs.read(reinterpret_cast<char *>(&arri.codigoAerolinea), sizeof(arri.codigoAerolinea));
     arri.codigoIATA = readstring(fs, longitudCodigoIATA);
-    fs.read(reinterpret_cast<char *>(&arri.cantidadPasajeros), sizeof(Arribo.cantidadPasajeros));
-    fs.read(reinterpret_cast<char *>(&arri.codigoDia), sizeof(Arribo.codigoDia));
+    fs.read(reinterpret_cast<char *>(&arri.cantidadPasajeros), sizeof(arri.cantidadPasajeros));
+    fs.read(reinterpret_cast<char *>(&arri.codigoDia), sizeof(arri.codigoDia));
     return fs;
 }
 
@@ -68,7 +68,7 @@ int main() {
     
 
 //Ingreso de los datos del nombre.txt
-    if(!archilec){
+    if(!archilec1){
 
         cout<<"Error en conexión del archivo";
 
@@ -76,14 +76,14 @@ int main() {
 
         for(i=0;i<5;i++){
 
-            archilec >> str;
+            archilec1 >> str;
 
             paises[i] = str;
         }
 
         for(a=0;a<8;a++){
         
-            getline(archilec, str);
+            getline(archilec1, str);
             
             aerolineas[a] = str;
 
@@ -91,11 +91,11 @@ int main() {
 
         for(b=0;b<15;b++){
 
-            archilec >> str;
+            archilec1 >> str;
             aeropuertos[b].codigoIATA = str;
             
-            getline(archilec,str);
-            aeropuertos[b].nombre >> str;
+            getline(archilec1,str);
+            aeropuertos[b].nombre = str;
 
         }
 
@@ -122,7 +122,7 @@ cout<<""<<arri.cantidadPasajeros<<" ";
 cout<<""<<arri.codigoDia<<" ";
 
         
-  pasajerosPorPaisAerolinea[arribo.codigoPais][arribo.codigoAerolinea] += cantidadPasajeros;
+  pasajerosPorPaisAerolinea[arri.codigoPais][arri.codigoAerolinea] += arri.cantidadPasajeros;
       
 
        }
