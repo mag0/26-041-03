@@ -63,73 +63,52 @@ int main() {
     ifstream archilec1;
     archilec1.open("nombres.txt");
 
-    fstream archilec2;
-    archilec2.open("arribos.bin",ios::binary);
-    
-
-//Ingreso de los datos del nombre.txt
+    //Ingreso de los datos del nombre.txt
     if(!archilec1){
-
         cout<<"Error en conexión del archivo";
-
+        return 1;
     }
 
-        for(i=0;i<5;i++){
+    for(i=0;i<5;i++){
+        archilec1 >> str;
+        paises[i] = str;
+    }
 
-            archilec1 >> str;
+    for(a=0;a<8;a++){
+        getline(archilec1, str);
+        aerolineas[a] = str;
+    }
 
-            paises[i] = str;
-        }
+    for(b=0;b<15;b++){
+        archilec1 >> str;
+        aeropuertos[b].codigoIATA = str;
+        getline(archilec1,str);
+        aeropuertos[b].nombre = str;
+    }
 
-        for(a=0;a<8;a++){
-        
-            getline(archilec1, str);
-            
-            aerolineas[a] = str;
+    archilec1.close();
 
-        }
+    fstream archilec2;
+    archilec2.open("arribos.bin", ios::in | ios::binary);
 
-        for(b=0;b<15;b++){
-
-            archilec1 >> str;
-            aeropuertos[b].codigoIATA = str;
-            
-            getline(archilec1,str);
-            aeropuertos[b].nombre = str;
-
-        }
-
-        archilec1.close();
-
-
-        if(!archilec2){
-
+    if(!archilec2){
         cout<<"error en conexión del archivo";
+        return 1;
+    }
 
+    while(archilec2 >> arri){
 
+        pasajerosPorPaisAerolinea[arri.codigoPais][arri.codigoAerolinea] += arri.cantidadPasajeros;
+
+        for(int i = 0; i < cantidadAeropuertos; i++) {
+            if(aeropuertos[i].codigoIATA == arri.codigoIATA) {
+                aeropuertos[i].cantidadPasajeros += arri.cantidadPasajeros;
+                aeropuertos[i].cantidadVuelos++;
+            }
         }
+    }
 
-      
-
-       while(archilec2 >> arri){
-
-cout<<"Registros"<<endl;
-       
-cout<<""<<arri.codigoPais<<" ";
-cout<<""<<arri.codigoAerolinea<<"";
-cout<<""<<arri.codigoIATA<<" ";
-cout<<""<<arri.cantidadPasajeros<<" ";
-cout<<""<<arri.codigoDia<<" ";
-
-        
-  pasajerosPorPaisAerolinea[arri.codigoPais][arri.codigoAerolinea] += arri.cantidadPasajeros;
-      
-
-       }
-
-        archilec2.close();
-
-//
+    archilec2.close();
 
     /*
         Punto 3: Armar un listado con el nombre del país, el nombre de la aerolínea y la cantidad 
@@ -141,8 +120,21 @@ cout<<""<<arri.codigoDia<<" ";
     /*
         Punto 4: Informar el nombre del aeropuerto que, habiendo enviado pasajeros durante esa 
         semana, envió la menor cantidad. Indicar cuántos pasajeros fueron y cuántos vuelos salieron de ese aeropuerto.
-    */ 
+    */
 
+    Aeropuerto aeropuertoConMenosPasajeros = aeropuertos[0];
+    for(int i = 1; i < cantidadAeropuertos; i++) {
+        if((aeropuertoConMenosPasajeros.cantidadPasajeros == 0) || (aeropuertos[i].cantidadPasajeros != 0 
+            && aeropuertos[i].cantidadPasajeros < aeropuertoConMenosPasajeros.cantidadPasajeros)) {
+            
+            aeropuertoConMenosPasajeros = aeropuertos[i];
+        }
+    }
+
+    cout << "Aeropuerto que envió menor cantidad de pasajeros: " << aeropuertoConMenosPasajeros.codigoIATA
+    << ": " << aeropuertoConMenosPasajeros.nombre << endl;
+    cout << "Pasajeros enviados: " << aeropuertoConMenosPasajeros.cantidadPasajeros << " en " 
+    << aeropuertoConMenosPasajeros.cantidadVuelos << " vuelos." << endl;
 
 
     /*
