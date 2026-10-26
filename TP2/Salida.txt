@@ -1,0 +1,194 @@
+Listado de datos
+
+Baradero
+Total de unidades: 223	Monto Total: 227723.41
+Transporte            Envios
+Andreani                4
+Logistica Austral       4
+Cruz del Sur            8
+Transportes Cuyo        0
+Expreso Oro Verde       3
+OCA Logistica           5
+
+Producto    Unidades       Monto
+Caladora       12       19579.03
+Caladora       10       12541.16
+Caladora        8       17500.16
+Caladora        9        2287.92
+Caladora       10        3004.00
+Caladora       12        1678.47
+∑ Caladora     61       56590.74
+
+Carretilla      5        2620.58
+Carretilla      6        1830.20
+Carretilla      4       13158.58
+Carretilla      8        5712.79
+Carretilla     16        9400.37
+∑ Carretilla   39       32722.52
+
+Cemento         8        6527.56
+Cemento         4       18763.23
+Cemento         3       16177.92
+Cemento        16        2555.83
+∑ Cemento      31       44024.54
+
+Escalera        4        7551.67
+Escalera       10        2647.87
+Escalera       14        2594.79
+Escalera        7       19255.06
+Escalera       15       12878.89
+Escalera        8        7807.03
+∑ Escalera     58       52735.31
+
+Taladro        16       18497.56
+Taladro        11       14090.31
+Taladro         7        9062.40
+∑ Taladro      34       41650.27
+
+
+Rama Caida
+Total de unidades: 258	Monto Total: 267272.66
+Transporte            Envios
+Andreani                3
+Logistica Austral       7
+Cruz del Sur            3
+Transportes Cuyo        7
+Expreso Oro Verde       3
+OCA Logistica           6
+
+Producto    Unidades       Monto
+Caladora       10       12518.53
+Caladora        8        2390.41
+Caladora       12       16077.30
+Caladora        7        4200.18
+Caladora       12        1497.35
+∑ Caladora     49       36683.77
+
+Carretilla     13        6468.74
+Carretilla      3        9108.43
+Carretilla      7       19417.55
+Carretilla      6        4996.34
+Carretilla      8        4306.53
+Carretilla     13        1133.37
+Carretilla      9       14061.98
+∑ Carretilla   59       59492.94
+
+Cemento        11        9957.09
+Cemento         7       16225.45
+Cemento         5       14355.85
+Cemento        17        2022.71
+∑ Cemento      40       42561.10
+
+Escalera       11       10735.11
+Escalera        5        2107.30
+Escalera       14       19249.00
+Escalera        5        5825.55
+Escalera       11        8529.24
+Escalera        5        5013.43
+∑ Escalera     51       51459.63
+
+Taladro         3       16887.94
+Taladro         8        7240.57
+Taladro         8       15928.11
+Taladro         8       16471.29
+Taladro        15       14369.27
+Taladro         7        4446.20
+Taladro        10        1731.83
+∑ Taladro      59       77075.21
+
+
+Rosario
+Total de unidades: 196	Monto Total: 173021.95
+Transporte            Envios
+Andreani                8
+Logistica Austral       1
+Cruz del Sur            2
+Transportes Cuyo        3
+Expreso Oro Verde       3
+OCA Logistica           3
+
+Producto    Unidades       Monto
+Caladora       15       10640.10
+∑ Caladora     15       10640.10
+
+Carretilla      6        8057.63
+Carretilla      4        3170.66
+Carretilla      8       15659.27
+Carretilla      8       15456.20
+Carretilla     16        5061.47
+Carretilla      8        8694.34
+∑ Carretilla   50       56099.57
+
+Cemento        10        2601.71
+Cemento         3        9095.59
+Cemento         6       11990.96
+∑ Cemento      19       23688.26
+
+Escalera       17         352.87
+Escalera        5       10128.10
+Escalera       15        9238.17
+Escalera       10       17203.78
+Escalera        9        5353.14
+Escalera        9         439.57
+Escalera       11        7294.48
+∑ Escalera     76       50010.11
+
+Taladro         4        5953.00
+Taladro        15        6965.09
+Taladro        17       19665.83
+∑ Taladro      36       32583.92
+
+
+Venado Tuerto
+Total de unidades: 299	Monto Total: 276986.72
+Transporte            Envios
+Andreani                6
+Logistica Austral       6
+Cruz del Sur            6
+Transportes Cuyo        2
+Expreso Oro Verde       3
+OCA Logistica           4
+
+Producto    Unidades       Monto
+Caladora       13        8296.95
+Caladora       11        8561.51
+Caladora        9        3328.68
+Caladora       15        9840.12
+Caladora        4       14505.32
+Caladora       10       17906.99
+Caladora        3        2381.84
+Caladora        9       16982.62
+∑ Caladora     74       81804.03
+
+Carretilla     17       18037.19
+Carretilla     14       15943.09
+Carretilla     12       15728.99
+∑ Carretilla   43       49709.27
+
+Cemento        17       13376.52
+Cemento         3        5990.44
+Cemento        16        2164.99
+Cemento        13       19692.91
+Cemento        15        7184.10
+∑ Cemento      64       48408.96
+
+Escalera       13        9862.46
+Escalera       12        1192.60
+Escalera       10        4769.80
+Escalera       12         420.39
+Escalera        6       15178.00
+Escalera        3       12275.85
+∑ Escalera     56       43699.10
+
+Taladro         4        3816.62
+Taladro        17       15181.91
+Taladro        15        2760.61
+Taladro         9       13621.30
+Taladro        17       17984.97
+∑ Taladro      62       53365.41
+
+
+La ciudad con menor cantidad total de unidades es: Rosario
+Ingrese el producto a consultar : Hubo 3 envíos de Cemento
+Ingrese el producto a consultar : Hubo 6 envíos de Carretilla
+Ingrese el producto a consultar : No hay producto Cualquiera en Rosario
