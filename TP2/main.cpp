@@ -16,30 +16,34 @@ struct Envio {
 };
 
 struct Transportista {
-    string nombre;
-    int cantidadEnvios;
+    int codigo;
+    int cantidadEnvios {};
 };
 
 struct Ciudad {
     string nombre;
-    int unidades;
-    float montoTotal;
-    Transportista transportistas[6];
+    int unidades {};
+    float montoTotal {};
+    Nodo<Transportista>* transportistas {};
 };
 
 const int lNombreCiudad = 14;
 const int lProducto = 10;
 
-int critMismoNombreCiudad(Ciudad a, Ciudad b) {
+int critCiudad(Ciudad a, Ciudad b) {
     return a.nombre.compare(b.nombre);
 }
 
-fstream& operator >> (fstream &fs, Envio& env) {
+int critTransportista(Transportista a, Transportista b) {
+    return a.codigo - b.codigo;
+}
+
+fstream& operator >> (fstream& fs, Envio& env) {
     env.nombreCiudad = readstring(fs, lNombreCiudad);
-    fs.read(reinterpret_cast<char *>(&env.codigoTransportista), sizeof(env.codigoTransportista));
+    fs.read(reinterpret_cast<char*>(&env.codigoTransportista), sizeof(env.codigoTransportista));
     env.producto = readstring(fs, lProducto);
-    fs.read(reinterpret_cast<char *>(&env.unidades), sizeof(env.unidades));
-    fs.read(reinterpret_cast<char *>(&env.monto), sizeof(env.monto));
+    fs.read(reinterpret_cast<char*>(&env.unidades), sizeof(env.unidades));
+    fs.read(reinterpret_cast<char*>(&env.monto), sizeof(env.monto));
     return fs;
 }
 
@@ -47,12 +51,12 @@ bool leerArchivoTxt(string transportistas[], int dimTransportistas) {
     ifstream archivoDeTexto;
     archivoDeTexto.open("Nombres.txt");
 
-    if(!archivoDeTexto) {
+    if (!archivoDeTexto) {
         cout << "No se pudo abrir el archivo Nombres.txt" << endl;
         return false;
     }
 
-    for(int i = 0; i < dimTransportistas; i++) {
+    for (int i = 0; i < dimTransportistas; i++) {
         getline(archivoDeTexto, transportistas[i]);
     }
 
@@ -61,57 +65,33 @@ bool leerArchivoTxt(string transportistas[], int dimTransportistas) {
     return true;
 }
 
-bool leerArchivoBinario(Nodo<Ciudad>*& listaCiudades, string transportistas[], int dimTransportistas) {
-    fstream archivoBinario;
-    archivoBinario.open("Datos.bin", ios::in | ios::binary);
+void listadoDeCadaCiudad(Nodo<Ciudad>* listaCiudades, string transportistas[]) {
+    Transportista transportista {};
+    Transportista* ptransportista {};
 
-    if(!archivoBinario) {
-        cout << "No se pudo abrir el archivo Datos.bin" << endl;
-        return false;
-    }
+    while (listaCiudades) {
+        cout << "Ciudad: " << listaCiudades->dato.nombre << endl;
 
-    Envio envio;
-    while(archivoBinario >> envio){
+        cout << "Total de unidades: " << listaCiudades->dato.unidades
+             << " - Monto Total: " << listaCiudades->dato.montoTotal << endl;
 
-        Ciudad ciudad;
-        ciudad.nombre = envio.nombreCiudad;
+        for (int i = 0; i < 6; i++) {
+            transportista.codigo = i;
 
-        Ciudad* ciudadEncontrada = buscar_lno(ciudad, listaCiudades, critMismoNombreCiudad);
+            ptransportista = buscar_lno(
+                transportista,
+                listaCiudades->dato.transportistas,
+                critTransportista
+            );
 
-        if(ciudadEncontrada != nullptr) {
-            ciudadEncontrada->montoTotal += envio.monto;
-            ciudadEncontrada->unidades += envio.unidades;
-            ciudadEncontrada->transportistas[envio.codigoTransportista].cantidadEnvios++;
-        } else {
-            for(int i = 0; i < dimTransportistas; i++) {
-                ciudad.transportistas[i].nombre = transportistas[i];
-                ciudad.transportistas[i].cantidadEnvios = 0;
+            cout << "Transportista: " << transportistas[i]
+                 << " - Envios: ";
+
+            if (ptransportista != nullptr) {
+                cout << ptransportista->cantidadEnvios << endl;
+            } else {
+                cout << 0 << endl;
             }
-            ciudad.transportistas[envio.codigoTransportista].cantidadEnvios = 1;
-            ciudad.montoTotal = envio.monto;
-            ciudad.unidades = envio.unidades;
-            push(listaCiudades, ciudad);
-        }
-        
-    }
-
-    archivoBinario.close();
-
-    return true;
-}
-
-void listadoDeCadaCiudad(Nodo<Ciudad>* listaCiudades, int dimTransportistas) {
-    while(listaCiudades != nullptr) {
-        Ciudad ciudad = listaCiudades->dato;
-        cout << "Ciudad: " << ciudad.nombre << endl;
-        cout << "Total de unidades: " << ciudad.unidades
-        << " - Monto Total: " << ciudad.montoTotal << endl;
-
-        int i = 0;
-        for(int i = 0; i < dimTransportistas; i++) {
-            Transportista transportista = ciudad.transportistas[i];
-            cout << "Transporte: " << transportista.nombre 
-            << " - Envios: " << transportista.cantidadEnvios << endl;
         }
 
         cout << endl;
@@ -120,30 +100,56 @@ void listadoDeCadaCiudad(Nodo<Ciudad>* listaCiudades, int dimTransportistas) {
 }
 
 int main() {
-
-    // Parte 1
     const int dimTransportistas = 6;
-    
-    Nodo<Ciudad>* listaCiudades = nullptr;
-    string transportistas[dimTransportistas]{};
 
-    if(!leerArchivoTxt(transportistas, dimTransportistas)) {
-        return 1;
+    Nodo<Ciudad>* ciudades {};
+    Nodo<Ciudad>* pciudad {};
+    Nodo<Transportista>* ptransportista {};
+
+    Envio envio {};
+    Ciudad ciudad {};
+    Transportista transportista {};
+
+    string nombresTransportistas[dimTransportistas] {};
+
+    if (!leerArchivoTxt(nombresTransportistas, dimTransportistas)) {
+        return EXIT_FAILURE;
     }
 
-    if(!leerArchivoBinario(listaCiudades, transportistas, dimTransportistas)) {
-        return 1;
+    fstream archilec;
+    archilec.open("Datos.bin", ios::in | ios::binary);
+
+    if (!archilec) {
+        cout << "No se pudo abrir el archivo Datos.bin" << endl;
+        return EXIT_FAILURE;
     }
-    
-    // Configuracion del cout para poder mostrar el monto con dos decimales
+
+    while (archilec >> envio) {
+        ciudad.nombre = envio.nombreCiudad;
+
+        pciudad = insertar_unico(ciudad, ciudades, critCiudad);
+
+        pciudad->dato.unidades += envio.unidades;
+        pciudad->dato.montoTotal += envio.monto;
+
+        transportista.codigo = envio.codigoTransportista;
+
+        ptransportista = insertar_unico(transportista, pciudad->dato.transportistas, critTransportista);
+
+        ptransportista->dato.cantidadEnvios++;
+    }
+
+    archilec.close();
+
+    // Configuracion para que se muestre el monto total con dos decimales
     cout << fixed << setprecision(2);
 
-    // Parte 2
-    listadoDeCadaCiudad(listaCiudades, dimTransportistas);
+    // Punto 2
+    listadoDeCadaCiudad(ciudades, nombresTransportistas);
 
-    // Parte 3
+    // Punto 3
 
-    // Parte 4
+    // Punto 4
 
     return 0;
 }
