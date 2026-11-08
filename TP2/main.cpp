@@ -85,13 +85,13 @@ void mostrarTransportistas(Nodo<Transportista>* listaTransportistas, string tran
         ptransportista = buscar(transportista, listaTransportistas, critPorTransportista);
         int envios = ptransportista ? ptransportista->dato.cantidadEnvios : 0;
         cout << transportistas[i]
-        << " | Unidades: " << envios << endl;
+        << " | Envios: " << envios << endl;
     }
 }
 
 void mostrarEnvios(Nodo<Envio>* listaEnvios){
     int unidadesTotal = 0;
-    int montoTotal = 0;
+    float montoTotal = 0;
     while(listaEnvios){
             cout << listaEnvios->dato.producto
             << " | Unidades: " << listaEnvios->dato.unidades
@@ -127,6 +127,21 @@ void mostrarListadoDeCadaCiudad(Nodo<Ciudad>* ciudades, string transportistas[],
 
         ciudades = ciudades->sig;
     }
+}
+
+void buscarCiudadConMenosUnidades(Nodo<Ciudad>* ciudades, string& ciudadEncontrada){
+    int cantidadMinima = 0;
+    cantidadMinima = ciudades->dato.unidades;
+    ciudadEncontrada = ciudades->dato.nombre;
+    ciudades = ciudades->sig;
+    while(ciudades){
+        if(ciudades->dato.unidades < cantidadMinima){
+            cantidadMinima = ciudades->dato.unidades;
+            ciudadEncontrada = ciudades->dato.nombre;
+        }
+        ciudades = ciudades->sig;
+    }
+    
 }
 
 int main() {
@@ -181,8 +196,41 @@ int main() {
     mostrarListadoDeCadaCiudad(ciudades, nombresTransportistas, dimTransportistas);
 
     // Punto 3
+    string nombreCidad;
+    buscarCiudadConMenosUnidades(ciudades, nombreCidad);
+    
+    cout << "\n\nLa ciudad con menor cantidad total de unidades es: " << nombreCidad << endl;
 
     // Punto 4
+    ciudad.nombre = nombreCidad;
+    pciudad = buscar(ciudad, ciudades, critCiudad);
+    string productoNombre;
+
+    cout << "Ingrese nombre del producto:" << endl;
+    while(cin >> productoNombre){
+        Nodo<Envio>* paux = pciudad->dato.envios;
+        int contadorEnvios = 0;
+        bool existe = false;
+
+        while(paux != nullptr){
+            if(paux->dato.producto == productoNombre){
+                contadorEnvios++;
+                existe = true;
+            }
+            paux = paux->sig;
+        }
+        if(existe == false){
+            cout << "No hay producto " << productoNombre << " en " << nombreCidad << endl;
+        }else{
+            cout << "Hubo " << contadorEnvios << " envios de " << productoNombre << endl;
+        }
+        cout << "Ingrese el nombre de otro producto. Si desea salir escriba 'salir'" << endl;
+        if(productoNombre == "salir" || productoNombre == "Salir") {
+            break;
+        }
+    }
+
+    cout << "\nSaliendo del programa..." << endl;
 
     return 0;
 }
