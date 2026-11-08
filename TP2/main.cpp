@@ -7,7 +7,7 @@
 
 using namespace std;
 
-struct Envio {
+struct Registro {
     string nombreCiudad;
     int codigoTransportista;
     string producto;
@@ -20,25 +20,36 @@ struct Transportista {
     int cantidadEnvios {};
 };
 
+struct Envio {
+    string producto;
+    int unidades;
+    float monto;
+};
+
 struct Ciudad {
     string nombre;
     int unidades {};
     float montoTotal {};
     Nodo<Transportista>* transportistas {};
+    Nodo<Envio>* envios {};
 };
 
 const int lNombreCiudad = 14;
 const int lProducto = 10;
 
+int critPorTransportista(Transportista a, Transportista b) {
+    return a.codigo - b.codigo;
+}
+
 int critCiudad(Ciudad a, Ciudad b) {
     return a.nombre.compare(b.nombre);
 }
 
-int critTransportista(Transportista a, Transportista b) {
-    return a.codigo - b.codigo;
+int critEnvio(Envio a, Envio b) {
+    return a.producto.compare(b.producto);
 }
 
-fstream& operator >> (fstream& fs, Envio& env) {
+fstream& operator >> (fstream& fs, Registro& env) {
     env.nombreCiudad = readstring(fs, lNombreCiudad);
     fs.read(reinterpret_cast<char*>(&env.codigoTransportista), sizeof(env.codigoTransportista));
     env.producto = readstring(fs, lProducto);
@@ -65,37 +76,56 @@ bool leerArchivoTxt(string transportistas[], int dimTransportistas) {
     return true;
 }
 
-void listadoDeCadaCiudad(Nodo<Ciudad>* listaCiudades, string transportistas[]) {
+void mostrarTransportistas(Nodo<Transportista>* listaTransportistas, string transportistas[], int dimTransportistas){
+    Nodo<Transportista>* ptransportista {};
     Transportista transportista {};
-    Transportista* ptransportista {};
 
-    while (listaCiudades) {
-        cout << "Ciudad: " << listaCiudades->dato.nombre << endl;
+    for(int i = 0; i < dimTransportistas; i++){
+        transportista.codigo = i;
+        ptransportista = buscar(transportista, listaTransportistas, critPorTransportista);
+        int envios = ptransportista ? ptransportista->dato.cantidadEnvios : 0;
+        cout << transportistas[i]
+        << " | Unidades: " << envios << endl;
+    }
+}
 
-        cout << "Total de unidades: " << listaCiudades->dato.unidades
-             << " - Monto Total: " << listaCiudades->dato.montoTotal << endl;
+void mostrarEnvios(Nodo<Envio>* listaEnvios){
+    int unidadesTotal = 0;
+    int montoTotal = 0;
+    while(listaEnvios){
+            cout << listaEnvios->dato.producto
+            << " | Unidades: " << listaEnvios->dato.unidades
+            << " | Monto: " << listaEnvios->dato.monto << endl;
 
-        for (int i = 0; i < 6; i++) {
-            transportista.codigo = i;
+            unidadesTotal += listaEnvios->dato.unidades;
+            montoTotal += listaEnvios->dato.monto;
 
-            ptransportista = buscar_lno(
-                transportista,
-                listaCiudades->dato.transportistas,
-                critTransportista
-            );
-
-            cout << "Transportista: " << transportistas[i]
-                 << " - Envios: ";
-
-            if (ptransportista != nullptr) {
-                cout << ptransportista->cantidadEnvios << endl;
-            } else {
-                cout << 0 << endl;
+            if(!listaEnvios->sig || listaEnvios->dato.producto != listaEnvios->sig->dato.producto){
+                cout << "---------------------------------------------------" << endl;
+                cout << listaEnvios->dato.producto
+                << " | Total Unidades: " << unidadesTotal
+                << " | Total Monto: " << montoTotal << endl << endl;
+                unidadesTotal = 0;
+                montoTotal = 0;
             }
-        }
 
-        cout << endl;
-        listaCiudades = listaCiudades->sig;
+            listaEnvios = listaEnvios->sig;
+        }
+}
+
+void mostrarListadoDeCadaCiudad(Nodo<Ciudad>* ciudades, string transportistas[], int dimTransportistas){
+    while(ciudades){
+        cout << "\n" << ciudades->dato.nombre << endl;
+        cout << "Total de unidades: " << ciudades->dato.unidades
+        << " | Monto Total: " << ciudades->dato.montoTotal << endl << endl;
+
+        mostrarTransportistas(ciudades->dato.transportistas, transportistas, dimTransportistas);
+
+        cout << endl << endl;
+
+        mostrarEnvios(ciudades->dato.envios);
+
+        ciudades = ciudades->sig;
     }
 }
 
@@ -106,9 +136,10 @@ int main() {
     Nodo<Ciudad>* pciudad {};
     Nodo<Transportista>* ptransportista {};
 
-    Envio envio {};
+    Registro reg {};
     Ciudad ciudad {};
     Transportista transportista {};
+    Envio envio {};
 
     string nombresTransportistas[dimTransportistas] {};
 
@@ -124,19 +155,20 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    while (archilec >> envio) {
-        ciudad.nombre = envio.nombreCiudad;
-
+    while (archilec >> reg) {
+        ciudad.nombre = reg.nombreCiudad;
         pciudad = insertar_unico(ciudad, ciudades, critCiudad);
+        pciudad->dato.unidades += reg.unidades;
+        pciudad->dato.montoTotal += reg.monto;
 
-        pciudad->dato.unidades += envio.unidades;
-        pciudad->dato.montoTotal += envio.monto;
-
-        transportista.codigo = envio.codigoTransportista;
-
-        ptransportista = insertar_unico(transportista, pciudad->dato.transportistas, critTransportista);
-
+        transportista.codigo = reg.codigoTransportista;
+        ptransportista = insertar_unico(transportista, pciudad->dato.transportistas, critPorTransportista);
         ptransportista->dato.cantidadEnvios++;
+
+        envio.producto = reg.producto;
+        envio.unidades = reg.unidades;
+        envio.monto = reg.monto;
+        insertar(envio, pciudad->dato.envios, critEnvio);
     }
 
     archilec.close();
@@ -145,7 +177,8 @@ int main() {
     cout << fixed << setprecision(2);
 
     // Punto 2
-    listadoDeCadaCiudad(ciudades, nombresTransportistas);
+    cout << "Listado de datos" << endl << endl;
+    mostrarListadoDeCadaCiudad(ciudades, nombresTransportistas, dimTransportistas);
 
     // Punto 3
 
