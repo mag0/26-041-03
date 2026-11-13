@@ -116,7 +116,7 @@ bool lecturaArchivoBinario(int pasajerosPorPaisAerolinea[][8], int pasajerosPorP
 // Punto 3 (funciones):
 void mostrarPasajerosPorPaisYAerolinea(int matriz[][8], string vectorAerolinea[], string vectorPaises[], int dimP, int dimA) {
     cout << "Listado pasajeros" << endl;
-    for(int i = 0; i < dimP; i++){
+    for(int i = 0; i < dimP; i++){ 
         for(int j = 0; j < dimA; j++){
             cout<< vectorPaises[i] <<" "<< vectorAerolinea[j] <<" "<< matriz[i][j] << endl;
         }
