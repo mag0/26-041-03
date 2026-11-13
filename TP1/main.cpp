@@ -34,21 +34,26 @@ fstream& operator >> (fstream &fs, Arribo& arri) {
 }
 
 // Criterios:
-bool criterioMismoAeropuerto(string a, string b) {
-    return a == b;
+int criterioMismoAeropuerto(string a, string b) {
+    return a.compare(b);
 }
 
-bool criterioMenorCantidadPasajerosAeropuerto(Aeropuerto a, Aeropuerto b) {
-    return (a.cantidadPasajeros == 0) || (b.cantidadPasajeros != 0 
-            && b.cantidadPasajeros < a.cantidadPasajeros);
+int criterioMenorCantidadPasajerosAeropuerto(Aeropuerto a, Aeropuerto b) {
+    if (a.cantidadPasajeros == 0)
+        return 1;
+
+    if (b.cantidadPasajeros == 0)
+        return -1;
+
+    return a.cantidadPasajeros - b.cantidadPasajeros;
 }
 
-bool criterioMayorCantidadPasajeros(int a, int b) {
-    return a > b;
+int criterioMayorCantidadPasajeros(int a, int b) {
+    return a - b;
 }
 
-bool criterioOrdenDescendente(int a, int b) {
-    return a < b;
+int criterioOrdenDescendente(int a, int b) {
+    return a - b;
 }
 
 // Punto 2 (funciones):
@@ -102,7 +107,7 @@ bool lecturaArchivoBinario(int pasajerosPorPaisAerolinea[][8], int pasajerosPorP
         pasajerosPorPaisAerolineaPorDia[arri.codigoPais][arri.codigoAerolinea][arri.codigoDia] += arri.cantidadPasajeros;
 
         for(int i = 0; i < dimAeropuertos; i++) {
-            if(criterioMismoAeropuerto(aeropuertos[i].codigoIATA, arri.codigoIATA)) {
+            if((criterioMismoAeropuerto(aeropuertos[i].codigoIATA, arri.codigoIATA)) == 0) {
                 aeropuertos[i].cantidadPasajeros += arri.cantidadPasajeros;
                 aeropuertos[i].cantidadVuelos++;
             }
@@ -125,11 +130,11 @@ void mostrarPasajerosPorPaisYAerolinea(int matriz[][8], string vectorAerolinea[]
 
 // Punto 4 (funciones):
 template<typename T>
-Aeropuerto buscarAeropuertoConMenosPasajeros(Aeropuerto vector[], int dimA, bool (*criterio)(T, T)) {
+Aeropuerto buscarAeropuertoConMenosPasajeros(Aeropuerto vector[], int dimA, int (*criterio)(T, T)) {
     Aeropuerto aeropuertoConMenosPasajeros = vector[0];
 
     for(int i = 1; i < dimA; i++) {
-        if(criterio(aeropuertoConMenosPasajeros, vector[i])) {
+        if(criterio(aeropuertoConMenosPasajeros, vector[i]) > 0) {
             aeropuertoConMenosPasajeros = vector[i];
         }
     }
@@ -150,11 +155,11 @@ void mostrarAeropuertoQueEnvioMenosPasajeros(Aeropuerto aeropuertoConMenosPasaje
 
 // Punto 5 (funciones):
 template<typename T>
-void buscarCombinacionConMasPasajeros(int matriz[][8], int dimPaises, int dimAerolineas, int& codPais, int& codAerolinea, bool (*criterio)(T, T)) {
+void buscarCombinacionConMasPasajeros(int matriz[][8], int dimPaises, int dimAerolineas, int& codPais, int& codAerolinea, int (*criterio)(T, T)) {
     int cantidadPasajeros = 0;
     for(int i = 0; i < dimPaises; i++) {
         for(int j = 0; j < dimAerolineas; j++) {
-            if(criterio(matriz[i][j], cantidadPasajeros)) {
+            if(criterio(matriz[i][j], cantidadPasajeros) > 0) {
                 cantidadPasajeros = matriz[i][j];
                 codPais = i;
                 codAerolinea = j;
@@ -170,10 +175,10 @@ void copiarPasajerosPorDia(int pasajerosPorPaisAerolineaPorDia[][8][7], int pasa
 }
 
 template<typename T>
-void ordenarPasajerosPorDiaDescendente(int pasajerosPorDia[], string dias[], int dimDias, bool (*criterio)(T, T)){
+void ordenarPasajerosPorDiaDescendente(int pasajerosPorDia[], string dias[], int dimDias, int (*criterio)(T, T)){
     for(int i = 0; i < dimDias - 1; i++) {
         for(int j = i + 1; j < dimDias; j++) {
-            if(criterio(pasajerosPorDia[i], pasajerosPorDia[j])) {
+            if(criterio(pasajerosPorDia[i], pasajerosPorDia[j]) < 0){
                 int aux = pasajerosPorDia[i];
                 pasajerosPorDia[i] = pasajerosPorDia[j];
                 pasajerosPorDia[j] = aux;
